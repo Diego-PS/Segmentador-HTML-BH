@@ -35,9 +35,13 @@ class HtmlDO {
     }
 
     getCaixaCinzaClass = pages => {
+        const principal = this.getCaixaCinzaClassWithSize(pages, '48')
+        const secundario = this.getCaixaCinzaClassWithSize(pages, '44')
+
         return {
-            principal : this.getCaixaCinzaClassWithSize(pages, '48'),
-            secundario : this.getCaixaCinzaClassWithSize(pages, '44')
+            principal : principal,
+            secundario : secundario,
+            todos: [ ...principal, ...secundario ]
         }
     }
 
@@ -50,7 +54,8 @@ class HtmlDO {
         const caixa_cinza_class = this.getCaixaCinzaClass(this.pages_as_elements) 
         this.caixa_cinza_elements = {
             principal : Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.principal)),
-            secundario : Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.secundario))
+            secundario : Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.secundario)),
+            todos : Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.todos))
         }
 
         this.pages = []

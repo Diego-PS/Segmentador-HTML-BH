@@ -7,7 +7,7 @@ class PageDO {
     constructor(page, htmlDO) {
         this.html = htmlDO
         this.page_div = page
-        const not_ordered = this.html.caixa_cinza_elements.principal.filter(element => Array.from(this.page_div.children).includes(element))
+        const not_ordered = this.html.caixa_cinza_elements.todos.filter(element => Array.from(this.page_div.children).includes(element))
         const ordered = not_ordered.sort((a, b) => this.html.dom.window.getComputedStyle(a).bottom > this.html.dom.window.getComputedStyle(b).bottom)
         this.caixa_cinza_elements_of_page = ordered
         this.ordered_elements = []

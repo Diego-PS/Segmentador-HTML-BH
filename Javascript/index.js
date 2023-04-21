@@ -16,7 +16,7 @@ try {
 
     html.pages.map(page => page.ordered_elements).forEach(page => {
         page.forEach(element => {
-            if (html.caixa_cinza_elements.principal.includes(element)) {
+            if (html.caixa_cinza_elements.todos.includes(element)) {
                 if (section_title && section_text.length > 0) {
                     sections.push({ title: section_title, text: section_text })
                     section_text = []
