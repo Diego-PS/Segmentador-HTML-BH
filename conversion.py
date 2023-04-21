@@ -15,6 +15,13 @@ def segmentadorDir (dir_pdf, dir_json):
             chama_segmentador(dir_pdf + arquivo, dir_json)
 
 def chama_segmentador(arquivo_pdf, dir_json):
+    
+    if not os.path.exists('./data/HTML_files'):
+        os.mkdir('./data/HTML_files')
+
+    if not os.path.exists('./data/json_files'):
+        os.mkdir('./data/json_files')
+        
     file_name = arquivo_pdf.split('/')[-1][:-4]
     dir_html = f'./data/HTML_files/{file_name}.html'
 
