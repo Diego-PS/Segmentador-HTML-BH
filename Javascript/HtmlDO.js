@@ -41,7 +41,6 @@ class HtmlDO {
         return {
             principal : principal,
             secundario : secundario,
-            todos: [ ...principal, ...secundario ]
         }
     }
 
@@ -51,11 +50,14 @@ class HtmlDO {
         this.page_container = this.dom.window.document.getElementById('page-container')
         this.pages_as_elements = Array.from(this.page_container.children).map(child => child.children[0])
         
-        const caixa_cinza_class = this.getCaixaCinzaClass(this.pages_as_elements) 
+        const caixa_cinza_class = this.getCaixaCinzaClass(this.pages_as_elements)
+        const principal =  Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.principal))
+        const secundario = Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.secundario))
+        const todos = [ ...principal, ...secundario ]
         this.caixa_cinza_elements = {
             principal : Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.principal)),
             secundario : Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.secundario)),
-            todos : Array.from(this.dom.window.document.getElementsByClassName(caixa_cinza_class.todos))
+            todos : todos
         }
 
         this.pages = []
