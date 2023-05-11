@@ -29,6 +29,18 @@ class HtmlDO {
                 caixaCinzaClass = this.dom.window.getComputedStyle(lastChild).fontFamily
                 break
             }
+            if (caixaCinzaClass === undefined) {
+                for (let j = page.children.length-1; j >= 0; j--) {
+
+                    let child = page.children[j]
+            
+                    if (this.dom.window.getComputedStyle(child).fontSize == `${px_siz}.000000px`) {
+                        if (child.textContent.length <= 10) continue;
+                        caixaCinzaClass = this.dom.window.getComputedStyle(child).fontFamily
+                        break
+                    }
+                }
+            }
         }
     
         return caixaCinzaClass
