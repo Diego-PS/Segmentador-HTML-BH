@@ -82,9 +82,11 @@ class Segmentador:
 
         regex_formula = re.compile(r'.*Diário Oficial do Município[\s]?[\d]+[Poder Executivo]{0,15}')
 
-        PDF_number_formula = re.compile(r'.*DOM Ano [LXVI]{2,6} . N\. [\d]\.[\d]{3}.*')
+        PDF_number_formula = re.compile(r'.*N. [\d]\.[\d]{3}.*')
 
         page_number_formula = re.compile(r'Page number: [\d]*')
+        
+        date_formula = re.compile(r'.*\d{1,2}\/\d{1,2}\/\d{4}.*')
 
         primeira_linha, segunda_linha = linhas[:2]
         linhas = linhas[2:]
@@ -123,9 +125,27 @@ class Segmentador:
         publicador = ''
         linha_anterior = ''
 
+        if data_flag == False:
+            for linha in linhas:
+
+                if date_formula.match(linha) != None:
+                    #print("Linha da data: " + linha)
+                    data = linha.split('/')
+                    dia = data[0]
+                    mes = data[1]
+                    ano = data[2]
+                    dia = dia.strip()
+                    data_flag = True
+                    try:
+                        data_string = f'{dia} de {meses[mes]} de {ano}'
+                    except:
+                        data_string = "ERROR"
+                    break
+
         for linha in linhas:
 
             if page_number_formula.match(linha) != None:
+                print("Linha do número: " + linha)
                 page_number = linha[len(linha) - 2 :]
                 if int(page_number) < 10:
                     page_number = page_number[1]
@@ -147,9 +167,16 @@ class Segmentador:
             else:
                 if number_flag == False:
                     if PDF_number_formula.match(linha) != None:
-                        PDF_number_extractor = linha.split()
-                        numero = PDF_number_extractor[PDF_number_extractor.index("N.") + 1].translate(str.maketrans('', '','.'))
+                        #print("Linha do numero do arquivo: " + linha)
+                        #PDF_number_extractor = linha.split()
+                        try:
+                            index = linha.index("N.")
+                            numero = linha[index + 3: index + 8]
+                        except:
+                            numero = linha
+                        #numero = PDF_number_extractor[PDF_number_extractor.index("N.") + 1].translate(str.maketrans('', '','.'))
                         number_flag = True
+                        break
                 if linha[:55] == "Documento assinado digitalmente em consonância com a MP" or linha[:18] == "Poder Executivo" or regex_formula.match(linha) != None or page_number_formula.match(linha) != None:
                     if regex_formula.match(linha) != None and data_flag == False:
                         date = linha.split()
