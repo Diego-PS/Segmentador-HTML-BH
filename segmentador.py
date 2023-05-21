@@ -36,8 +36,10 @@ class Segmentador:
 
         start_time = time.time()
         print("Pré-processando arquivo '" + self.arquivo_json + "'")
-
-        self.sections = json.load(open(arquivo_json))
+        try:
+            self.sections = json.load(open(arquivo_json))
+        except:
+            self.sections = []
         self.sections_dict = {}
         self.pdf = pdfplumber.open(arquivo_pdf)
         linhas_em_negrito = dict()
@@ -226,8 +228,10 @@ class Segmentador:
             self.sections_dict[section["title"]] = self.segmentar_secao(section)
 
         self.document_dict["segmentos"] = self.sections_dict
-
-        # os.remove(self.arquivo_json)
+        try:
+            os.remove(self.arquivo_json)
+        except:
+            no_file = True    
         json_file_name = self.dir_json + self.arquivo_pdf.split('/')[-1][:-4] + '.json'
         with codecs.open(json_file_name, "w", "utf-8") as outfile: 
             json.dump(self.document_dict, outfile, indent = 4, ensure_ascii=False)

@@ -40,4 +40,4 @@ def chama_segmentador(arquivo_pdf, dir_json):
     seg = segmentador.Segmentador(arquivo_pdf, arquivo_json, dir_json)
     seg.segmentar()
 
-    # os.remove(dir_html)
+    os.remove(dir_html)
